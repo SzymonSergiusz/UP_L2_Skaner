@@ -10,8 +10,9 @@ namespace UP_L2_Skaner
         {
             InitializeComponent();
             formatsList.SelectedIndex = 0;
-            scanPreview.Image = new Bitmap("D:\\Studia\\UP_L2_Skaner\\test.jpg");
-            scanPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            //scanPreview.Image = new Bitmap("D:\\Studia\\UP_L2_Skaner\\test.jpg");
+            //scanPreview.SizeMode = PictureBoxSizeMode.StretchImage;
+            colorBox.SelectedIndex = 0;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -42,7 +43,18 @@ namespace UP_L2_Skaner
         {
             var extension = formatsList.SelectedItem.ToString();
             System.Diagnostics.Debug.WriteLine("ROZSZERZENIE: " + extension);
-            scanner.saveImageAs(extension);
+
+            String filename = filenameInput.Text.ToString();
+            if (String.IsNullOrEmpty(filename))
+            {
+                filename = "braknazwy";
+            }
+            else
+            {
+                scanner.saveImageAs(filename, extension);
+
+            }
+
 
 
         }
@@ -67,6 +79,44 @@ namespace UP_L2_Skaner
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void scanPreview_Click_1(object sender, EventArgs e)
+        {
+            scanPreview.Refresh();
+        }
+
+        private void saveSettingsButton_Click(object sender, EventArgs e)
+        {
+            int bright = int.Parse(brightnessValue.Value.ToString());
+            int contrast = int.Parse(contrastValue.Value.ToString());
+            int height = int.Parse(heightValue.Value.ToString());
+
+            int width = int.Parse(widthValue.Value.ToString());
+            int color = 0;
+            String colorInput = colorBox.Text.ToString();
+            switch (colorInput)
+            {
+                case "Kolorowy":
+                    color = 1;
+                    break;
+                case "Szary":
+                    color = 2;
+                    break;
+            }
+
+
+            scanner.changeSettings(bright, contrast, height, width, color);
         }
     }
 }
